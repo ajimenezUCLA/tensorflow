@@ -888,7 +888,13 @@ class RNN(Layer):
     if self.time_major:
       batch_size = self.input_spec[0].shape[1]
     else:
-      batch_size = self.input_spec[0].shape[0]
+    	try:
+    		batch_size = self.input_spec[0].shape[0]
+    	except TypeError:
+    		print("Known issue with reset input_spec in __call__")
+    		print("regarding input_spec reseting to default")
+    		print("Issue is still under investigation")
+      
     if not batch_size:
       raise ValueError('If a RNN is stateful, it needs to know '
                        'its batch size. Specify the batch size '
